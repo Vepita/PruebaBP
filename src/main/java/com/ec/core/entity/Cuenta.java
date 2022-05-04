@@ -94,6 +94,14 @@ public class Cuenta implements Serializable {
 		this.cliente = cliente;
 	}
 	
-	
+	public Cuenta(String numeroCuenta, TipoCuentaEnum tipoCuenta, BigDecimal saldoInicial, EstadoCuentaEnum estado,
+			Cliente cliente) {
+		super();
+		this.numeroCuenta = numeroCuenta;
+		this.tipoCuenta = tipoCuenta;
+		this.saldoInicial = saldoInicial;
+		this.estado = estado;
+		this.cliente = cliente;
+	}
 
 }
