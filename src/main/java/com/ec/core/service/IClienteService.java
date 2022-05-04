@@ -9,10 +9,14 @@ import com.ec.core.entity.Cliente;
 @Component
 public interface IClienteService {
 
-	List<Cliente> obtenerClientes();
+	public List<Cliente> obtenerClientes();
 	
-	Cliente guardarCliente(Cliente cliente);
+	public Cliente guardarCliente(Cliente cliente);
 	
-	Cliente obtenerClientePorIdentificacion(String identificacion);
+	public Cliente obtenerClientePorIdentificacion(String identificacion);
+	
+	public void eliminarCliente(Long id);
+	
+	public Cliente actualizarcliente(String identificacion, Cliente cliente);
 
 }

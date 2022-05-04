@@ -13,6 +13,6 @@ public interface IMovimientoService {
 	
 	Movimiento guardarMovimiento(Movimiento movimiento) throws Exception;
 	
-	Movimiento obtenerMovimientoPorCuenta(String identificacion);
+	List<Movimiento> obtenerMovimientosPorCuenta(String numeroCuenta);
 
 }

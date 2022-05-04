@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ec.core.constantes.Constantes;
 import com.ec.core.entity.Cuenta;
 import com.ec.core.entity.Movimiento;
 import com.ec.core.enums.TipoMovimientoEnum;
@@ -35,15 +36,9 @@ public class MovimientoServiceImpl implements IMovimientoService {
 			this.cuentaService.guardarCuenta(cuentaActualizada);
 			return movimientoRepository.save(movimiento);
 		} catch (Exception e) {
-			throw new Exception("Ocurrio un error al guardar el movimiento"+ e.getMessage());
+			throw new Exception("Ocurrio un error al guardar el movimiento: "+ e.getMessage());
 		}
 		
-	}
-
-	@Override
-	public Movimiento obtenerMovimientoPorCuenta(String identificacion) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -51,14 +46,28 @@ public class MovimientoServiceImpl implements IMovimientoService {
 		return (List<Movimiento>) movimientoRepository.findAll();
 	}
 
-	private BigDecimal calcularSaldo(BigDecimal valor, BigDecimal saldoInicial, TipoMovimientoEnum tipoMovimiento) {
+	private BigDecimal calcularSaldo(BigDecimal valor, BigDecimal saldoInicial, TipoMovimientoEnum tipoMovimiento) throws Exception {
 		BigDecimal saldo = BigDecimal.ZERO;
-		if (tipoMovimiento.getValor().equals("RETIRO")) {
-			saldo = saldoInicial.subtract(valor);
-		} else {
-			saldo = saldoInicial.add(valor);
+		try {
+			if (tipoMovimiento.getValor().equals(Constantes.RETIRO)) {
+				if(saldoInicial.equals(BigDecimal.ZERO)) {
+					throw new Exception("El saldo de la cuenta es 0.00");
+				}
+				saldo = saldoInicial.subtract(valor);
+			} else {
+				saldo = saldoInicial.add(valor);
+			}
+		} catch (Exception e) {
+			throw new Exception("No se puddo realizar el retiro" + e.getMessage());
 		}
 		return saldo;
+	}
+
+
+	@Override
+	public List<Movimiento> obtenerMovimientosPorCuenta(String numeroCuenta) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

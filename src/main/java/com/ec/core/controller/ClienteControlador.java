@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,7 +55,7 @@ public class ClienteControlador {
 		return new RestResponse(cliente, false, null);
 	}
 
-	@RequestMapping(value = "/guardarCliente", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/guardarCliente", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public RestResponse guardarCliente(@RequestBody Cliente cliente) {
 		Cliente clienteNuevo = cliente;
 		try {
@@ -64,5 +65,26 @@ public class ClienteControlador {
 		}
 		return new RestResponse(clienteNuevo, false, null);
 	}
+	
+	@DeleteMapping("/{id}")
+	public RestResponse eliminarCliente(@PathVariable Long id) {
+		try {
+			iClienteService.eliminarCliente(id);
+		} catch (Exception e) {
+			return new RestResponse(null, true, "Error al eliminar el cliente: " + e.getMessage());
+		}
+		return new RestResponse("Cliente eliminado", false, null);
+	}
+	
+	@RequestMapping(value = "/actualizarCliente/{identificacion}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public RestResponse actualizarCliente(@PathVariable String identificacion, @RequestBody Cliente client) {
+		Cliente clienteActualizado = null;
+		try {
+			clienteActualizado = this.iClienteService.actualizarcliente(identificacion, client);
+		} catch (Exception e) {
+			return new RestResponse(null, true, "Error al actualizar el cliente: " + e.getMessage());
+		}
+		return new RestResponse(clienteActualizado, false, null);
+    }
 
 }

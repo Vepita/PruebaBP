@@ -1,6 +1,5 @@
 package com.ec.core.service.impl;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import com.ec.core.service.IClienteService;
 
 @Service("clienteService")
 public class ClienteServiceImpl implements IClienteService {
-	
+
 	@Autowired
 	ClienteRepository clienteRepository;
 
@@ -30,7 +29,20 @@ public class ClienteServiceImpl implements IClienteService {
 	public Cliente obtenerClientePorIdentificacion(String identificacion) {
 		return clienteRepository.findByIdentificacion(identificacion);
 	}
-	
 
+	@Override
+	public void eliminarCliente(Long id) {
+		clienteRepository.deleteById(id);
+	}
+
+	@Override
+	public Cliente actualizarcliente(String identificacion, Cliente cliente) {
+		Cliente clienteActualizado;
+		clienteActualizado = clienteRepository.findByIdentificacion(identificacion);
+		clienteActualizado.setContrasenia(cliente.getContrasenia());
+		clienteActualizado.setDireccion(cliente.getDireccion());
+		clienteActualizado.setEstado(cliente.getEstado());
+		return clienteRepository.save(clienteActualizado);
+	}
 
 }

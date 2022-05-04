@@ -54,7 +54,7 @@ public class CuentaControlador {
 		return new RestResponse(cuenta, false, null);
 	}
 
-	@RequestMapping(value = "/guardarCuenta", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/guardarCuenta", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public RestResponse guardarCuenta(@RequestBody Cuenta cuenta) {
 		Cuenta cuentaNueva = null;
 		try {
